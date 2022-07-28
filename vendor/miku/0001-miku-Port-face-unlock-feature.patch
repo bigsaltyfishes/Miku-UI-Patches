@@ -1,0 +1,53 @@
+From 82484877924f974a1568d36fe9c49f4f70b2b8fc Mon Sep 17 00:00:00 2001
+From: jhenrique09 <jhenrique09.mcz@hotmail.com>
+Date: Wed, 27 Jul 2022 22:04:39 +0800
+Subject: [PATCH] miku: Port face unlock feature
+
+Build face unlock for arm64 devices
+
+Also add a flag to opt-out
+---
+ build/product/miku_product.mk     | 10 ++++++++++
+ build/product/miku_product_tab.mk | 11 ++++++++++-
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/build/product/miku_product.mk b/build/product/miku_product.mk
+index f07757b..fbbacd5 100644
+--- a/build/product/miku_product.mk
++++ b/build/product/miku_product.mk
+@@ -151,3 +151,13 @@ OVERRIDE_TARGET_FLATTEN_APEX := true
+ # prebuilt vendors, as init reads /product/build.prop after /vendor/build.prop
+ PRODUCT_PRODUCT_PROPERTIES += ro.apex.updatable=false
+ 
++# Face Unlock
++TARGET_FACE_UNLOCK_SUPPORTED ?= true
++ifeq ($(TARGET_FACE_UNLOCK_SUPPORTED),true)
++PRODUCT_PACKAGES += \
++    FaceUnlockService
++PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
++    ro.face_unlock_service.enabled=$(TARGET_FACE_UNLOCK_SUPPORTED)
++PRODUCT_COPY_FILES += \
++    frameworks/native/data/etc/android.hardware.biometrics.face.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.biometrics.face.xml
++endif
+diff --git a/build/product/miku_product_tab.mk b/build/product/miku_product_tab.mk
+index d08560b..633c18e 100644
+--- a/build/product/miku_product_tab.mk
++++ b/build/product/miku_product_tab.mk
+@@ -124,4 +124,13 @@ PRODUCT_LOCALES := zh_CN
+ # Disable extra StrictMode features on all non-engineering builds
+ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += persist.sys.strictmode.disable=true
+ 
+-
++# Face Unlock
++TARGET_FACE_UNLOCK_SUPPORTED ?= true
++ifeq ($(TARGET_FACE_UNLOCK_SUPPORTED),true)
++PRODUCT_PACKAGES += \
++    FaceUnlockService
++PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
++    ro.face_unlock_service.enabled=$(TARGET_FACE_UNLOCK_SUPPORTED)
++PRODUCT_COPY_FILES += \
++    frameworks/native/data/etc/android.hardware.biometrics.face.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.biometrics.face.xml
++endif
+-- 
+2.37.1
+

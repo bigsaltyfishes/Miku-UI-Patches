@@ -1,0 +1,59 @@
+From 23e275e00c9171c00739ee92d469f3428951879b Mon Sep 17 00:00:00 2001
+From: A Big Salty Fish <1055126159@qq.com>
+Date: Thu, 28 Jul 2022 00:09:07 +0800
+Subject: [PATCH] =?UTF-8?q?Merge=20tag=20'android-12.1.0=5Fr8'=20of=20http?=
+ =?UTF-8?q?s://android.googlesource.com/pla=E2=80=A6=20=E2=80=A6tform/fram?=
+ =?UTF-8?q?eworks/base=20into=20HEAD?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Android 12.1.0 Release 8 (SQ3A.220605.009.B1)
+
+Change-Id: I6c31e87b7b01148070bdb2f0f81603a4bfcc9dd3
+---
+ .../sensors/face/custom/CustomFaceProvider.java        | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/services/core/java/com/android/server/biometrics/sensors/face/custom/CustomFaceProvider.java b/services/core/java/com/android/server/biometrics/sensors/face/custom/CustomFaceProvider.java
+index 840fb1add157..be31a15c6e76 100644
+--- a/services/core/java/com/android/server/biometrics/sensors/face/custom/CustomFaceProvider.java
++++ b/services/core/java/com/android/server/biometrics/sensors/face/custom/CustomFaceProvider.java
+@@ -312,10 +312,11 @@ public class CustomFaceProvider implements ServiceProvider {
+     }
+ 
+     @Override
+-    public void scheduleEnroll(int sensorId, IBinder token, byte[] hardwareAuthToken, int userId,
++    public long scheduleEnroll(int sensorId, IBinder token, byte[] hardwareAuthToken, int userId,
+                                IFaceServiceReceiver receiver, String opPackageName,
+                                int[] disabledFeatures, Surface previewSurface,
+                                boolean debugConsent) {
++        final long id = mRequestCounter.incrementAndGet();
+         mHandler.post(() -> {
+             if (getDaemon() == null) {
+                 bindFaceAuthService(mCurrentUserId);
+@@ -341,11 +342,12 @@ public class CustomFaceProvider implements ServiceProvider {
+                 });
+             }
+         });
++        return id;
+     }
+ 
+     @Override
+-    public void cancelEnrollment(int sensorId, IBinder token) {
+-        mHandler.post(() -> mScheduler.cancelEnrollment(token));
++    public void cancelEnrollment(int sensorId, IBinder token, long requestId) {
++        mHandler.post(() -> mScheduler.cancelEnrollment(token, requestId));
+     }
+ 
+     @Override
+@@ -916,4 +918,4 @@ public class CustomFaceProvider implements ServiceProvider {
+             mContext.unbindService(this);
+         }
+     }
+-}
++}
+\ No newline at end of file
+-- 
+2.37.1
+

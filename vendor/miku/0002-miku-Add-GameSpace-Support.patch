@@ -1,0 +1,41 @@
+From 235b8c20fbdcdc826a5d44ce3395663252bb71f4 Mon Sep 17 00:00:00 2001
+From: A Big Salty Fish <1055126159@qq.com>
+Date: Wed, 27 Jul 2022 22:29:10 +0800
+Subject: [PATCH] miku: Add GameSpace Support
+
+---
+ build/product/miku_product.mk     | 3 ++-
+ build/product/miku_product_tab.mk | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/build/product/miku_product.mk b/build/product/miku_product.mk
+index fbbacd5..8b14117 100644
+--- a/build/product/miku_product.mk
++++ b/build/product/miku_product.mk
+@@ -36,7 +36,8 @@ PRODUCT_PACKAGES += \
+     QuickAccessWallet \
+     Stk \
+     TimeZoneUpdater \
+-    ThemePicker 
++    ThemePicker \
++    GameSpace 
+ 
+ 
+ # Blur
+diff --git a/build/product/miku_product_tab.mk b/build/product/miku_product_tab.mk
+index 633c18e..6c56936 100644
+--- a/build/product/miku_product_tab.mk
++++ b/build/product/miku_product_tab.mk
+@@ -36,7 +36,8 @@ PRODUCT_PACKAGES += \
+     LiveWallpapersPicker \
+     PartnerBookmarksProvider \
+     TimeZoneUpdater \
+-    ThemePicker 
++    ThemePicker \
++    GameSpace 
+ 
+ # Bootanimation
+ PRODUCT_PACKAGES += \
+-- 
+2.37.1
+
